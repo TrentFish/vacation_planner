@@ -61,7 +61,7 @@ const Users = ({ users, vacations })=> {
   );
 };
 
-const Vacations = ({ vacations, places, cancelVacation })=> {
+const Vacations = ({ vacations, places, users, cancelVacation })=> {
   return (
     <div>
       <h2>Vacations ({ vacations.length })</h2>
@@ -69,9 +69,13 @@ const Vacations = ({ vacations, places, cancelVacation })=> {
         {
           vacations.map( vacation => {
             const place = places.find(place => place.id === vacation.place_id);
+            const user = users.find(user => user.id === vacation.user_id);
             return (
               <li key={ vacation.id }>
-                { new Date(vacation.created_at).toLocaleString() }
+                On { new Date(vacation.created_at).toLocaleString() },
+                <div> 
+                  { user ? user.name : '' } will go
+                </div>
                 <div> 
                   to { place ? place.name : '' }
                 </div>
@@ -152,6 +156,7 @@ const App = ()=> {
         <Vacations
           vacations={ vacations }
           places={ places }
+          users={ users }
           cancelVacation={ cancelVacation }
         />
         <Users users={ users } vacations={ vacations }/>
